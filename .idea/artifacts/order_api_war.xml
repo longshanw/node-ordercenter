@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="order-api:war">
+    <output-path>$PROJECT_DIR$/../ccerp-interact/order-api/Trunk/order-api/target</output-path>
+    <root id="archive" name="order-api.war">
+      <element id="artifact" artifact-name="order-api:war exploded" />
+    </root>
+  </artifact>
+</component>

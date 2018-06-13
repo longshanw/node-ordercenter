@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.ehaoyao.ordercenter:ordercenter-common:1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/ordercenter/ordercenter-common/1.0-SNAPSHOT/ordercenter-common-1.0-20180416.110633-2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/ordercenter/ordercenter-common/1.0-SNAPSHOT/ordercenter-common-1.0-20180416.110633-2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/ordercenter/ordercenter-common/1.0-SNAPSHOT/ordercenter-common-1.0-20180416.110633-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

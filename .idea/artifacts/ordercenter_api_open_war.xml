@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ordercenter-api-open:war">
+    <output-path>$PROJECT_DIR$/../ordercenter-parent/Brunch/ToBeOnline/ordercenter-parent/ordercenter-api-open/target</output-path>
+    <root id="archive" name="ordercenter-api-open.war">
+      <element id="artifact" artifact-name="ordercenter-api-open:war exploded" />
+    </root>
+  </artifact>
+</component>

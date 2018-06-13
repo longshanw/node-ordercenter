@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.ehaoyao.tech:ehaoyao-tech-client:0.0.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/tech/ehaoyao-tech-client/0.0.3-SNAPSHOT/ehaoyao-tech-client-0.0.3-20180404.085128-8.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/tech/ehaoyao-tech-client/0.0.3-SNAPSHOT/ehaoyao-tech-client-0.0.3-20180404.085128-8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://E:/soft/apache-maven-3.5.3/repo/com/ehaoyao/tech/ehaoyao-tech-client/0.0.3-SNAPSHOT/ehaoyao-tech-client-0.0.3-20180404.085128-8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
