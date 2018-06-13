@@ -1,30 +1,39 @@
 //改造    wls     2018年6月12日17点05分
 var amqp = require('amqplib/callback_api');
+
+
+
 /**
  * 发送消息
  * @param mqRequest
+ * @param flag  true:需要回执   false：不接收回执
+ * @param callbackfunction
  */
-function publishMsg(mqRequest,callbackfunction){
+function publishMsg(mqRequest,flag,callbackfunction){
     amqp.connect(mqRequest.url, function (err, conn) {
         if (conn == undefined) {
             console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), "socket timeout!!!");
-            callbackfunction(false);
+            if(flag){
+                callbackfunction(false);
+            }
             return;
         }
         conn.createChannel(function (err, ch) {
             try {
-                ch.assertExchange(mqRequest.exchange, mqRequest.type, {durable: true});
-                var sendFlag = ch.publish(mqRequest.exchange, mqRequest.routingKey, new Buffer(mqRequest.msg));
-                console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), sendFlag);
-            } finally {
+            ch.assertExchange(mqRequest.exchange, mqRequest.type, {durable: mqRequest.durable});
+            var sendFlag = ch.publish(mqRequest.exchange, mqRequest.routingKey, new Buffer(mqRequest.msg));
+            console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), sendFlag);
+            ch.close();
+        } finally {
+            if(flag){
                 callbackfunction(sendFlag);
-                ch.close();
-                conn.close();
-                // process.exit(0)
             }
+        }
         });
+        setTimeout(function() { conn.close(); /*process.exit(0)*/ }, 500);
     });
 }
+
 
 
 /**
@@ -38,6 +47,12 @@ function receiveMsg(mqRequest) {
                 var ex = mqRequest.exchange;
                 ch.assertExchange(ex, mqRequest.type, {durable: mqRequest.durable});
                 ch.prefetch(mqRequest.prefetch);
+                /**
+                 * exclusive：
+                 * 如果输入的是false，那与之相连的客户端都断开连接的话，服务是不会删除这个队列的，队列中的消息也就会存在
+                 * 如果是true，那么申明这个queue的connection断了，那么这个队列就被删除了，包括里面的消息
+                 * @type {boolean}
+                 */
                 ch.assertQueue(mqRequest.queueName, {exclusive: mqRequest.exclusive}, function (err, q) {
                     console.log(' [*] Waiting for logs. To exit press CTRL+C');
 

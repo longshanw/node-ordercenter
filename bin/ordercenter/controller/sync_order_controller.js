@@ -10,7 +10,7 @@ http.createServer(function (req, res) {
         //获取发送mq请求参数
         var mqRequest = getRabbitMqRequest(jsonData);
         //发送消息
-        rabbitmqUtils.publishMsg(mqRequest,function (sendFlag) {
+        rabbitmqUtils.publishMsg(mqRequest,true,function (sendFlag) {
             var httpResponse = getHttpResponse(sendFlag, '【附加返回内容】');
             res.writeHead(httpResponse.code);
             res.end(JSON.stringify(httpResponse));
@@ -30,7 +30,6 @@ function getRabbitMqRequest(msg) {
     mqRequest.type = "topic";
     mqRequest.exchange = "topic_order_exchange";
     mqRequest.routingKey = "order.order_detail.key";
-    mqRequest.prefetch = 10;
     mqRequest.msg = msg;
     return mqRequest;
 }
