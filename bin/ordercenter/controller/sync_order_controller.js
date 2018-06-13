@@ -11,7 +11,7 @@ http.createServer(function (req, res) {
         var mqRequest = getRabbitMqRequest(jsonData);
         //发送消息
         rabbitmqUtils.publishMsg(mqRequest,true,function (sendFlag) {
-            var httpResponse = getHttpResponse(sendFlag, '【附加返回内容】');
+            var httpResponse = getHttpResponse(sendFlag, '【请求内容】：'+jsonData);
             res.writeHead(httpResponse.code);
             res.end(JSON.stringify(httpResponse));
         });
