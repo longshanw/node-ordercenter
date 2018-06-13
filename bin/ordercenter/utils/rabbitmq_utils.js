@@ -1,8 +1,6 @@
 //改造    wls     2018年6月12日17点05分
 var amqp = require('amqplib/callback_api');
 
-
-
 /**
  * 发送消息
  * @param mqRequest
@@ -23,7 +21,7 @@ function publishMsg(mqRequest,ackFlag,callbackfunction) {
                 ch.assertExchange(mqRequest.exchange, mqRequest.type, {durable: mqRequest.durable});
                 var sendFlag = ch.publish(mqRequest.exchange, mqRequest.routingKey, new Buffer(mqRequest.msg));
                 console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), sendFlag);
-                ch.close();
+                ch.close(function() { conn.close(); });
             } catch (e) {
                 console.error(e);
             } finally {
@@ -32,10 +30,9 @@ function publishMsg(mqRequest,ackFlag,callbackfunction) {
                 }
             }
         });
-        setTimeout(function() { conn.close(); /*process.exit(0)*/ }, 500);
+        // setTimeout(function() { conn.close(); /!*process.exit(0)*!/ }, 500);
     });
 }
-
 
 
 /**
