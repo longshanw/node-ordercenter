@@ -6,14 +6,14 @@ var amqp = require('amqplib/callback_api');
 /**
  * 发送消息
  * @param mqRequest
- * @param flag  true:需要回执   false：不接收回执
+ * @param ackFlag  true:需要回执   false：不接收回执
  * @param callbackfunction
  */
-function publishMsg(mqRequest,flag,callbackfunction) {
+function publishMsg(mqRequest,ackFlag,callbackfunction) {
     amqp.connect(mqRequest.url, function (err, conn) {
         if (conn == undefined) {
             console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), "socket timeout!!!");
-            if(flag){
+            if(ackFlag){
                 callbackfunction(false);
             }
             return;
@@ -27,7 +27,7 @@ function publishMsg(mqRequest,flag,callbackfunction) {
             } catch (e) {
                 console.error(e);
             } finally {
-                if(flag){
+                if(ackFlag){
                     callbackfunction(sendFlag);
                 }
             }

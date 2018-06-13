@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 
 app.post('/order/sync-orders', function (req, res) {
-    syncorders(req,res);
+    syncorders(req,res,true);
 }).listen({ port:8088,host:'127.0.0.1' }/*8088,'127.0.0.1'*/);
 
 
@@ -15,7 +15,7 @@ http.createServer(function (req, res) {
     // console.log(req.url);
     switch (req.method) {
         case 'POST':
-            syncorders(req,res);
+            syncorders(req,res,true);
             break;
         case 'GET':
 
@@ -35,7 +35,7 @@ http.createServer(function (req, res) {
  * @param req
  * @param res
  */
-function syncorders(req,res) {
+function syncorders(req,res,ackFlag) {
     var jsonData = "";
     req.on('data', function (chunk) {
         jsonData += chunk;
@@ -44,7 +44,7 @@ function syncorders(req,res) {
         //获取发送mq请求参数
         var mqRequest = getRabbitMqRequest(jsonData);
         //发送消息
-        rabbitmqUtils.publishMsg(mqRequest,true,function (sendFlag) {
+        rabbitmqUtils.publishMsg(mqRequest,ackFlag,function (sendFlag) {
             var httpResponse = getHttpResponse(sendFlag, '【请求内容】：'+jsonData);
             res.writeHead(httpResponse.code,{'Content-Type':'application/json;charset=UTF-8'});
             res.end(JSON.stringify(httpResponse));
