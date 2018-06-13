@@ -1,7 +1,41 @@
-var http = require('http');
 var rabbitmqUtils = require('../utils/rabbitmq_utils');
 
+var express = require('express');
+var app = express();
+
+app.post('/order/sync-orders', function (req, res) {
+    syncorders(req,res);
+}).listen(3000);
+
+
+/*
+// http基本请求
+var http = require('http');
 http.createServer(function (req, res) {
+    // console.log(req.url);
+    switch (req.method) {
+        case 'POST':
+            syncorders(req,res);
+            break;
+        case 'GET':
+
+            break;
+
+        case 'DELETE':
+
+            break;
+    }
+
+}).listen({ port:8088,host:'127.0.0.1' }/!*8088,'127.0.0.1'*!/);
+*/
+
+
+/**
+ * post请求同步订单
+ * @param req
+ * @param res
+ */
+function syncorders(req,res) {
     var jsonData = "";
     req.on('data', function (chunk) {
         jsonData += chunk;
@@ -12,12 +46,11 @@ http.createServer(function (req, res) {
         //发送消息
         rabbitmqUtils.publishMsg(mqRequest,true,function (sendFlag) {
             var httpResponse = getHttpResponse(sendFlag, '【请求内容】：'+jsonData);
-            res.writeHead(httpResponse.code);
+            res.writeHead(httpResponse.code,{'Content-Type':'application/json;charset=UTF-8'});
             res.end(JSON.stringify(httpResponse));
         });
     });
-}).listen(8088);
-
+}
 
 /**
  * 获取发送mq请求参数
@@ -52,28 +85,3 @@ function getHttpResponse(sendFlag, msg) {
     return httpResponse;
 }
 
-/*
-
-var http = require('http');
-var options = {
-    host: '127.0.0.1',
-    path: '/sync-orders',
-    port: '8088',
-    method: 'POST'
-};
-function readJSONResponse(response) {
-    var responseData = '';
-    response.on('data', function (chunk) {
-        responseData += chunk;
-    });
-
-    response.on('end', function () {
-        var dataObj = JSON.parse(responseData);
-        console.log("Raw Response: " +responseData);
-        console.log("Message: " + dataObj.message);
-        console.log("Question: " + dataObj.question);
-    });
-}
-var req = http.request(options, readJSONResponse);
-req.write('{"name":"Bilbo", "occupation":"Burglar"}');
-req.end();*/
