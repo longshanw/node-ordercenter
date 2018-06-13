@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "node ./bin/ordercenter/web/orderInterfaces.js",
-    "sync_order_controller": "node ./bin/ordercenter/controller/sync_order_controller.js"
+    "sync_order_controller": "node ./bin/ordercenter/controller/sync_order_controller.js",
+    "test_sync_order_controller": "node ./bin/ordercenter/test/test_sync_order_controller.js"
   },
   "dependencies": {
     "amqp": "^0.2.6",

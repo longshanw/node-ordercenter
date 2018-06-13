@@ -9,7 +9,7 @@ var amqp = require('amqplib/callback_api');
  * @param flag  true:需要回执   false：不接收回执
  * @param callbackfunction
  */
-function publishMsg(mqRequest,flag,callbackfunction){
+function publishMsg(mqRequest,flag,callbackfunction) {
     amqp.connect(mqRequest.url, function (err, conn) {
         if (conn == undefined) {
             console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), "socket timeout!!!");
@@ -20,15 +20,17 @@ function publishMsg(mqRequest,flag,callbackfunction){
         }
         conn.createChannel(function (err, ch) {
             try {
-            ch.assertExchange(mqRequest.exchange, mqRequest.type, {durable: mqRequest.durable});
-            var sendFlag = ch.publish(mqRequest.exchange, mqRequest.routingKey, new Buffer(mqRequest.msg));
-            console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), sendFlag);
-            ch.close();
-        } finally {
-            if(flag){
-                callbackfunction(sendFlag);
+                ch.assertExchange(mqRequest.exchange, mqRequest.type, {durable: mqRequest.durable});
+                var sendFlag = ch.publish(mqRequest.exchange, mqRequest.routingKey, new Buffer(mqRequest.msg));
+                console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), sendFlag);
+                ch.close();
+            } catch (e) {
+                console.error(e);
+            } finally {
+                if(flag){
+                    callbackfunction(sendFlag);
+                }
             }
-        }
         });
         setTimeout(function() { conn.close(); /*process.exit(0)*/ }, 500);
     });
