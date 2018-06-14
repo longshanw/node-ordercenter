@@ -1,7 +1,9 @@
-var rabbitmqUtils = require('../utils/rabbitmq_utils');
-
+var rabbitmqUtils = require('../utils/amqp_utils');
+var emitter = require("events");
 var express = require('express');
 var app = express();
+//监听数量，默认数量为10，0为无限制
+emitter.EventEmitter.defaultMaxListeners=0;
 
 app.post('/order/sync-orders', function (req, res) {
     syncorders(req,res,true);
@@ -63,6 +65,9 @@ function getRabbitMqRequest(msg) {
     mqRequest.type = "topic";
     mqRequest.exchange = "topic_order_exchange";
     mqRequest.routingKey = "order.order_detail.key";
+    mqRequest.durable = true;
+    mqRequest.autoDelete = false;
+    mqRequest.confirm = true;
     mqRequest.msg = msg;
     return mqRequest;
 }

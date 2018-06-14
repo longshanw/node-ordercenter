@@ -31,7 +31,7 @@ amqp.connect('amqp://wls:wls@127.0.0.1:5672', function(err, conn) {
 
 
 
-var rabbitmq = require('../utils/rabbitmq_utils');
+var rabbitmq = require('../utils/amqp_utils');
 
 //接收消息请求测试
 var mqRequest = new Object();

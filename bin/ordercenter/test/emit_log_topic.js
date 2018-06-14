@@ -17,7 +17,7 @@ var amqp = require('amqplib/callback_api');
 });*/
 
 //改造    wls     2018年6月12日17点05分
-var rabbitmq = require('../utils/rabbitmq_utils');
+var rabbitmq = require('../utils/amqp_utils');
 
 var mqRequest = new Object();
 mqRequest.url = "amqp://wls:wls@127.0.0.1:5672";

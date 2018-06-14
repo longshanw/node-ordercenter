@@ -1,5 +1,5 @@
 //改造    wls     2018年6月12日17点05分
-var amqp = require('amqplib/callback_api');
+var amqplib = require('amqplib/callback_api');
 
 /**
  * 发送消息
@@ -8,7 +8,7 @@ var amqp = require('amqplib/callback_api');
  * @param callbackfunction
  */
 function publishMsg(mqRequest,ackFlag,callbackfunction) {
-    amqp.connect(mqRequest.url, function (err, conn) {
+    amqplib.connect(mqRequest.url, function (err, conn) {
         if (conn == undefined) {
             console.log(" [Request]：%s [Response]：%s", JSON.stringify(mqRequest), "socket timeout!!!");
             if(ackFlag){
@@ -40,7 +40,7 @@ function publishMsg(mqRequest,ackFlag,callbackfunction) {
  * @param mqRequest
  */
 function receiveMsg(mqRequest) {
-    amqp.connect(mqRequest.url, function(err, conn) {
+    amqplib.connect(mqRequest.url, function(err, conn) {
         conn.createChannel(function(err, ch) {
 
                 var ex = mqRequest.exchange;
